@@ -13,6 +13,9 @@ class Agent {
     this.neighbors = [];
     
     this.addNeighbors = this.addNeighbors.bind(this);
+    this.draw = this.draw.bind(this);
+    this.newCycle = this.newCycle.bind(this);
+    this.mutation = this.mutation.bind(this);
   }
 
   addNeighbors(board) {
@@ -23,13 +26,54 @@ class Agent {
       for (let j = -1; j < 2; j++) {
         neighborX = (this.x + j + this.columns) % this.columns;
         neighborY = (this.y + i + this.rows) % this.rows;
-        console.log(neighborX, neighborY);
         
         if (i !== 0 || j !== 0) {
           this.neighbors.push(board[neighborY][neighborX]);
         }
       }
     }
+  }
+
+  draw(ctx, sizeCellX, sizeCellY) {
+    let color;
+
+    if(this.state === 1){
+      color = '#fff';
+    }
+    else{
+      color = '#000';
+    }
+
+    ctx.fillStyle = color;
+    ctx.fillRect(this.x * sizeCellX, this.y * sizeCellY, sizeCellX, sizeCellY);
+  }
+
+  newCycle() {
+    //calculamos la cantidad de vecinos vivos
+    let neighbors = 0;
+    for(let i = 0; i < this.neighbors.length; i++){
+      neighbors += this.neighbors[i].state;
+    }
+    console.log('TOTAL', neighbors);
+    
+    //APLICAMOS LAS NORMAS DE CONWAY
+
+    //Valor por defecto lo dejamos igual
+    this.nextState = this.state;
+
+    //MUERTE: tiene menos de 2 o más de 3
+    if(neighbors <2 || neighbors>3){
+      this.nextState = 0;
+    }
+
+    //VIDA/REPRODUCCIÓN: tiene exactamente 3 vecinos
+    if(neighbors==3){
+      this.nextState = 1;
+    }
+  }
+
+  mutation() {
+    this.state = this.nextState;
   }
 
 
@@ -65,10 +109,8 @@ class LifeGame {
     
     let state;
     for (let y = 0; y < this.columns; y++) {
-      for (let x = 0; x < this.rows; x++) {
-        console.log('INIT AGENT', y, x);
-        
-        state = Math.floor(Math.random());
+      for (let x = 0; x < this.rows; x++) {        
+        state = Math.floor(Math.random() * 2);
         this.board[y][x] = new Agent(x, y, state, this.rows, this.columns);
       }
     }
@@ -78,7 +120,7 @@ class LifeGame {
         this.board[y][x].addNeighbors(this.board);
       }
     }
-    console.log(this.board[9][9].addNeighbors(this.board));
+    this.board[9][9].addNeighbors(this.board);
     
   }
 
@@ -102,12 +144,29 @@ class LifeGame {
   }
 
   draw() {
-    console.log(this.board);
-    
+    // console.log(this.board);
+    for(let y=0; y < this.rows; y++){
+      for(let x=0; x < this.columns; x++){
+        this.board[y][x].draw(this.ctx, this.sizeCellX, this.sizeCellY);
+      }
+    }
+
+    for(let y=0; y < this.rows; y++){
+      for(let x=0; x < this.columns; x++){
+        this.board[y][x].newCycle();
+        
+      }
+    }
+
+    for(let y=0; y < this.rows; y++){
+      for(let x=0; x < this.columns; x++){
+        this.board[y][x].mutation();
+      }
+    }
   }
 
   start() {
-    setInterval(this.playing, 1000 / 1);
+    setInterval(this.playing, 1000 / 60);
   }
 }
 
@@ -117,11 +176,13 @@ const fps = 30;
 const canvasX = 500;
 const canvasY = 500;
 
-const rows = 10;
-const columns = 10;
+const rows = 50;
+const columns = 50;
 
 const white = '#FFFFFF';
 const black = '#000000';
+const sizeCellX = canvasX / rows;
+const sizeCellY = canvasY / rows;
 
 const lifeGame = new LifeGame(canvas, canvasX, canvasY, rows, columns);
 lifeGame.start();
