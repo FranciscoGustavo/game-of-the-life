@@ -1,0 +1,16 @@
+{
+  "name": "nextstation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francisco Gustavo <hidalgofco520@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5"
+  }
+}
