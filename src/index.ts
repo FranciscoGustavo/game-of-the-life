@@ -120,7 +120,6 @@ class LifeGame {
         this.board[y][x].addNeighbors(this.board);
       }
     }
-    this.board[9][9].addNeighbors(this.board);
     
   }
 
