@@ -172,11 +172,11 @@ class LifeGame {
 const canvas = document.getElementById('life-game');
 const fps = 30;
 
-const canvasX = 500;
-const canvasY = 500;
+const canvasX = 1000;
+const canvasY = 1000;
 
-const rows = 50;
-const columns = 50;
+const rows = 100;
+const columns = 100;
 
 const white = '#FFFFFF';
 const black = '#000000';
