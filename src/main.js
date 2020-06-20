@@ -1,4 +1,5 @@
-function startGame(ctx) {  
+function startGame(canvas) {  
+  const ctx = canvas.getContext('2d');
   const columns = 50;
   const rows = 50;
   
@@ -12,14 +13,14 @@ function startGame(ctx) {
 
   const initialState = [
     [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,1,0],
+    [0,0,0,0,0,0,0,0,0,0,1,1],
+    [0,0,0,0,0,0,0,0,0,0,1,0],
     [0,0,0,0,1,1,0,0,0,0,0,0],
     [0,0,0,0,0,1,1,0,0,0,0,0],
-    [0,0,0,0,0,1,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0,0,1,0,0,0],
+    [0,0,0,0,0,0,0,0,1,0,0,0],
+    [0,0,0,0,0,0,0,0,1,0,0,0],
   ];
   
   const board = new Board(rows, columns, initialState);
@@ -36,7 +37,7 @@ function startGame(ctx) {
           ctx.fillStyle = '#000 ';
         }
   
-        ctx.fillRect(y * sizeCellY, x * sizeCellX, sizeCellY, sizeCellX,);
+        ctx.fillRect(x * sizeCellX, y * sizeCellY, sizeCellY, sizeCellX,);
       }
     }
     for (let y = 0; y < rows; y++) {
@@ -52,9 +53,8 @@ function startGame(ctx) {
     }
 
 
-  }, 15 / 1000);
+  }, 10 / 2000);
 }
 
 const canvas = document.getElementById('life-game');
-const ctx = canvas.getContext('2d');
-startGame(ctx);
+startGame(canvas);
