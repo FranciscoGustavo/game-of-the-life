@@ -19,7 +19,7 @@ class Box {
       for (let x = -1; x < 2; x++) {
         neighborY = (this.y + y + columns) % columns; 
         neighborX = (this.x + x + rows) % rows;
-        
+
         if (y !== 0 || x !== 0) {
           this.neighbors.push(board[neighborY][neighborX]);
         }
@@ -32,12 +32,12 @@ class Box {
     for(let i = 0; i < this.neighbors.length; i++){
       neighbors += this.neighbors[i].state;
     }
-    
+
     // MUERTE: tiene menos de 2 o más de 3
     if(neighbors < 2 || neighbors > 3){      
       this.nextState = 0;
     }
-    
+
     // VIDA/REPRODUCCIÓN: tiene exactamente 3 vecinos
     if(neighbors == 3){
       this.nextState = 1;
