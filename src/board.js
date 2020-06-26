@@ -5,7 +5,7 @@ function Board(rows, columns, initialState) {
     board[y] = new Array(columns);
 
     for (let x = 0; x < columns; x++) {
-      
+
       try {
         if(initialState[y][x] === 1) {
           board[y][x] = new Box(x, y, 1);
